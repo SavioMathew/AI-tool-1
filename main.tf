@@ -2,16 +2,6 @@ provider "aws" {
   region = var.region
 }
 
-data "aws_ami" "amazon_linux_2" {
-  owners      = ["amazon"]
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
-  }
-}
-
 resource "aws_key_pair" "deployer" {
   key_name   = var.key_name
   public_key = var.public_key
