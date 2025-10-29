@@ -34,25 +34,6 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color > plan.txt
-
-      - name: AI Review Terraform Plan
-        if: env.OPENAI_API_KEY != ''
-        run: |
-          echo "### Sending Terraform plan to GPT-5 for review..."
-          RESPONSE=$(curl -s https://api.openai.com/v1/chat/completions \
-            -H "Content-Type: application/json" \
-            -H "Authorization: Bearer $OPENAI_API_KEY" \
-            -d '{
-              "model": "gpt-5",
-              "messages": [
-                {"role": "system", "content": "You are a DevOps expert reviewing Terraform for AWS."},
-                {"role": "user", "content": "Review this Terraform plan for security, permissions, and cost issues:\n'"$(cat plan.txt | sed 's/"/\\"/g')"'."}
-              ]
-            }' | jq -r '.choices[0].message.content')
-
-            echo "AI Review Result:"
-            echo "$RESPONSE"
-            echo "ai_review=$RESPONSE" >> $GITHUB_ENV
    
       - name: Terraform Appy
         if: github.ref == 'refs/heads/main'
