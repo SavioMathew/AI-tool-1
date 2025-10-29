@@ -4,23 +4,6 @@ variable "region" {
   default     = "us-west-2"
 }
 
-variable "instance_type" {
-  description = "EC2 instance type"
-  type        = string
-  default     = "t2.micro"
-}
-
-variable "key_name" {
-  description = "Key pair name to create in AWS"
-  type        = string
-  default     = "tf-deployer-key"
-}
-
-variable "public_key" {
-  description = "Public SSH key (openssh format) for the new user and created key pair"
-  type        = string
-}
-
 variable "username" {
   description = "Linux user to create on the instance"
   type        = string
