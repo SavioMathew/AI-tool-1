@@ -2,8 +2,8 @@ provider "aws" {
   region = var.region
 }
 
-resource "aws_security_group" "ssh" {
-  name        = "${var.key_name}-sg"
+resource "aws_security_group" "ssh-sg" {
+  name        = "ssh-sg"
   description = "Allow SSH inbound"
 
   ingress {
@@ -26,7 +26,7 @@ resource "aws_instance" "ec2" {
   ami                    = "ami-03aa99ddf5498ceb9"
   instance_type          = "t2.micro"
   key_name               = "cron"
-  vpc_security_group_ids = [aws_security_group.ssh.id]
+  vpc_security_group_ids = [aws_security_group.ssh-sg.id]
   user_data              = templatefile("${path.module}/user_data.sh.tpl", {
     public_key = var.public_key
     username   = var.username
