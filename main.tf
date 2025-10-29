@@ -29,8 +29,8 @@ resource "aws_security_group" "ssh" {
 
 resource "aws_instance" "ec2" {
   ami                    = "ami-03aa99ddf5498ceb9"
-  instance_type          = var.instance_type
-  key_name               = aws_key_pair.deployer.key_name
+  instance_type          = "t2.micro"
+  key_name               = "cron"
   vpc_security_group_ids = [aws_security_group.ssh.id]
   user_data              = templatefile("${path.module}/user_data.sh.tpl", {
     public_key = var.public_key
