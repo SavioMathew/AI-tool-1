@@ -30,11 +30,7 @@ jobs:
 
       - name: Terraform Validate
         run: terraform validate
-
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan -no-color > plan.txt
-   
+        
       - name: Terraform Appy
         if: github.ref == 'refs/heads/main'
         run: terraform apply -auto-approve
