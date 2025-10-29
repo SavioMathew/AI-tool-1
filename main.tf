@@ -38,7 +38,7 @@ resource "aws_security_group" "ssh" {
 }
 
 resource "aws_instance" "ec2" {
-  ami                    = data.aws_ami.amazon_linux_2.id
+  ami                    = ami-03aa99ddf5498ceb9
   instance_type          = var.instance_type
   key_name               = aws_key_pair.deployer.key_name
   vpc_security_group_ids = [aws_security_group.ssh.id]
