@@ -11,6 +11,9 @@ jobs:
     name: Terraform Deploy
     runs-on: ubuntu-latest
 
+  env:
+    OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -49,10 +52,7 @@ jobs:
        echo "AI Review Result:"
        echo "$RESPONSE"
        echo "ai_review=$RESPONSE" >> $GITHUB_ENV
-  env:
-    OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-
-
+       
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
         run: terraform apply -auto-approve
