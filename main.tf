@@ -2,11 +2,6 @@ provider "aws" {
   region = var.region
 }
 
-resource "aws_key_pair" "deployer" {
-  key_name   = var.key_name
-  public_key = var.public_key
-}
-
 resource "aws_security_group" "ssh" {
   name        = "${var.key_name}-sg"
   description = "Allow SSH inbound"
