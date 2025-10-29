@@ -28,6 +28,7 @@ resource "aws_instance" "ec2" {
   key_name               = "cron"
   vpc_security_group_ids = [aws_security_group.ssh-sg.id]
   user_data              = templatefile("${path.module}/user_data.sh.tpl", {
+    public_key = var.public_key
     username   = var.username
     app_dir    = var.app_dir
   })
