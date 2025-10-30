@@ -3,12 +3,6 @@ variable "region" {
   type        = string
   default     = "us-west-2"
 }
-
-variable "public_key" {
-  description = "Public SSH key to add to authorized_keys"
-  type        = string
-}
-
 variable "username" {
   description = "Linux user to create on the instance"
   type        = string
