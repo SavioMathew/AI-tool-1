@@ -33,7 +33,7 @@ resource "aws_instance" "ec2" {
   ami                    = "ami-03aa99ddf5498ceb9"
   instance_type          = "t2.micro"
   key_name               = "cron"
-  vpc_security_group_ids = [aws_security_group.ssh-1-sg.id]
+  vpc_security_group_ids = [data.aws_security_group.ssh_sg.id]
   user_data              = templatefile("${path.module}/user_data.sh.tpl", {
     username   = var.username
     app_dir    = var.app_dir
