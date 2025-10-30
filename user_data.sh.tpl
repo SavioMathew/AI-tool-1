@@ -3,7 +3,7 @@ set -euo pipefail
 
 # --- System preparation ---
 echo "[INFO] Updating system packages..."
-yum update -y
+apt-get update -y
 
 # --- Create application user ---
 USERNAME="${username}"
