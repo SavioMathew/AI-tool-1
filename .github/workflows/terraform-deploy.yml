@@ -12,8 +12,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      AWS_ACCESS_KEY_ID: 
-      AWS_SECRET_ACCESS_KEY: 
+      AWS_ACCESS_KEY_ID: AKIA4MTWHF2TYZ2MUA7A
+      AWS_SECRET_ACCESS_KEY: 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
+      
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
     steps:
