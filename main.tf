@@ -2,6 +2,13 @@ provider "aws" {
   region = var.region
 }
 
+data "aws_security_group" "ssh_sg" {
+  filter {
+    name   = "group-name"
+    values = ["ssh-1-sg"]
+  }
+}
+
 resource "aws_security_group" "ssh-1-sg" {
   name        = "ssh-1-sg"
   description = "Allow SSH inbound"
