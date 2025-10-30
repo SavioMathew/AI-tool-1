@@ -9,24 +9,24 @@ data "aws_security_group" "ssh_sg" {
   }
 }
 
-resource "aws_security_group" "ssh-1-sg" {
-  name        = "ssh-1-sg"
-  description = "Allow SSH inbound"
+#resource "aws_security_group" "ssh-1-sg" {
+#  name        = "ssh-1-sg"
+#  description = "Allow SSH inbound"
 
-  ingress {
-    description = "SSH"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = var.ssh_allowed_cidrs
-  }
+#  ingress {
+#   description = "SSH"
+#    from_port   = 22
+#    to_port     = 22
+#    protocol    = "tcp"
+#    cidr_blocks = var.ssh_allowed_cidrs
+#  }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#  egress {
+#    from_port   = 0
+#    to_port     = 0
+#    protocol    = "-1"
+#    cidr_blocks = ["0.0.0.0/0"]
+#  }
 }
 
 resource "aws_instance" "ec2" {
