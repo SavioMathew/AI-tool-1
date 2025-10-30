@@ -27,7 +27,7 @@ data "aws_security_group" "ssh_sg" {
 #    protocol    = "-1"
 #    cidr_blocks = ["0.0.0.0/0"]
 #  }
-}
+#}
 
 resource "aws_instance" "ec2" {
   ami                    = "ami-03aa99ddf5498ceb9"
