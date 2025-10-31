@@ -2,20 +2,9 @@ provider "aws" {
   region = var.region
 }
 
-# ✅ Try to fetch existing SG (don't fail if not found)
-data "aws_security_group" "existing" {
-  filter {
-    name   = "group-name"
-    values = ["ssh-1-sg"]
-  }
 
-  lifecycle {
-    ignore_errors = true
-  }
-}
 
-# ✅ Create SG only if not exists
-resource "aws_security_group" "ssh" {
+resource "aws_security_group" "ssh-1-sg" {
   count       = length(data.aws_security_group.existing.*.id) == 0 ? 1 : 0
   name        = "ssh-1-sg"
   description = "Allow SSH inbound"
@@ -36,20 +25,14 @@ resource "aws_security_group" "ssh" {
   }
 }
 
-# ✅ Decide SG ID (existing or newly created)
-locals {
-  ssh_sg_id = length(data.aws_security_group.existing.*.id) > 0 ?
-    data.aws_security_group.existing.id :
-    aws_security_group.ssh[0].id
-}
 
-# ✅ EC2 instance
+
 resource "aws_instance" "ec2" {
   ami           = "ami-03aa99ddf5498ceb9"
   instance_type = "t2.micro"
   key_name      = "cron"
 
-  vpc_security_group_ids = [local.ssh_sg_id]
+  vpc_security_group_ids = [aws_security_group.ssh-1-sg.id]
 
   user_data = templatefile("${path.module}/user_data.sh.tpl", {
     username = var.username
