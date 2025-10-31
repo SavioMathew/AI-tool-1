@@ -9,6 +9,7 @@ data "aws_security_group" "ssh_sg" {
   }
 }
 
+
 #resource "aws_security_group" "ssh-1-sg" {
 #  name        = "ssh-1-sg"
 #  description = "Allow SSH inbound"
