@@ -2,20 +2,30 @@ provider "aws" {
   region = var.region
 }
 
-# data "aws_security_group" "ssh_sg" {
-#  filter {
-#    name   = "group-name"
-#    values = ["ssh-1-sg"]
-#  }
-#}
+# Try to find existing SG
+data "aws_security_group" "existing" {
+  filter {
+    name   = "group-name"
+    values = ["ssh-1-sg"]
+  }
 
+  # If SG doesn't exist, do not fail
+  lifecycle {
+    postcondition {
+      condition     = true
+      error_message = "ignore"
+    }
+  }
+}
 
-resource "aws_security_group" "ssh-1-sg" {
+# Create SG only if not exists
+resource "aws_security_group" "ssh" {
+  count       = length(data.aws_security_group.existing.*.id) == 0 ? 1 : 0
   name        = "ssh-1-sg"
   description = "Allow SSH inbound"
 
   ingress {
-   description = "SSH"
+    description = "SSH"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -30,14 +40,22 @@ resource "aws_security_group" "ssh-1-sg" {
   }
 }
 
+locals {
+  ssh_sg_id = length(data.aws_security_group.existing.*.id) > 0 ?
+    data.aws_security_group.existing.id :
+    aws_security_group.ssh[0].id
+}
+
 resource "aws_instance" "ec2" {
-  ami                    = "ami-03aa99ddf5498ceb9"
-  instance_type          = "t2.micro"
-  key_name               = "cron"
-  vpc_security_group_ids = [data.aws_security_group.ssh-1-sg.id]
-  user_data              = templatefile("${path.module}/user_data.sh.tpl", {
-    username   = var.username
-    app_dir    = var.app_dir
+  ami           = "ami-03aa99ddf5498ceb9"
+  instance_type = "t2.micro"
+  key_name      = "cron"
+
+  vpc_security_group_ids = [local.ssh_sg_id]
+
+  user_data = templatefile("${path.module}/user_data.sh.tpl", {
+    username = var.username
+    app_dir  = var.app_dir
   })
 
   tags = {
