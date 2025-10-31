@@ -30,7 +30,7 @@ fi
 
 # --- Install helpful tools ---
 echo "[INFO] Installing common utilities..."
-yum install -y git unzip curl vim
+apt install -y git unzip curl vim
 
 # --- Final message ---
 echo "[INFO] Setup complete for user: $USERNAME"
