@@ -5,7 +5,6 @@ provider "aws" {
 
 
 resource "aws_security_group" "ssh-1-sg" {
-  count       = length(data.aws_security_group.existing.*.id) == 0 ? 1 : 0
   name        = "ssh-1-sg"
   description = "Allow SSH inbound"
 
